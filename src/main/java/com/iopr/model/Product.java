@@ -17,9 +17,24 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class Product {
 
+    public Product(long id, String name, float standardPrice) {
+        this.id = id;
+        this.name = name;
+        this.standardPrice = standardPrice;
+    }
+
     private long id;
     private String name;
+    private float standardPrice;
+    
+    public float getStandardPrice() {
+        return standardPrice;
+    }
 
+    public void setStandardPrice(float standardPrice) {
+        this.standardPrice = standardPrice;
+    }
+    
     @NotNull
     public String getName() {
         return name;
@@ -37,5 +52,7 @@ public class Product {
     public void setId(long id) {
         this.id = id;
     }
+    
+    
 
 }
