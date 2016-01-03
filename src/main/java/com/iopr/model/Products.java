@@ -5,9 +5,12 @@
  */
 package com.iopr.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Table;
 
 /**
  *
@@ -15,16 +18,24 @@ import javax.validation.constraints.NotNull;
  */
 
 @Entity
-public class Product {
+@Table(name = "Products")
+public class Products implements Configurable{
 
-    public Product(long id, String name, float standardPrice) {
+    public Products(long id, String name, float standardPrice) {
         this.id = id;
         this.name = name;
         this.standardPrice = standardPrice;
     }
-
+    
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    
+    @Column(name = "name")
     private String name;
+    
+    @Column(name = "standardPrice")
     private float standardPrice;
     
     public float getStandardPrice() {
@@ -35,7 +46,6 @@ public class Product {
         this.standardPrice = standardPrice;
     }
     
-    @NotNull
     public String getName() {
         return name;
     }
@@ -44,7 +54,6 @@ public class Product {
         this.name = name;
     }
 
-    @Id
     public long getId() {
         return id;
     }
