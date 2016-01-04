@@ -34,11 +34,15 @@ public class KonfiguratorController {
     }
     
     @RequestMapping("/product")
-    public ModelAndView product(@RequestParam(value="id", required=false, defaultValue="default") long id) {
-//        HashSet<Entity> products = (HashSet<Entity>) ProductsDAO.getInstance().readAll(Products.class);
-        ModelAndView model = new ModelAndView("product");
-//        Products product = (Products) products.stream().filter((p)-> p.getId() == id).findAny().get();
-//        model.addObject(product);
+    public ModelAndView product(@RequestParam(value="id", required=true) int id) {
+        ModelAndView model;
+        Products product = (Products) ProductsDAO.getInstance().read(Products.class, id);
+        if(product != null){
+            model = new ModelAndView("product");
+            model.addObject(product);
+        }else{
+            model = new ModelAndView();
+        }
         return model;
     }
     

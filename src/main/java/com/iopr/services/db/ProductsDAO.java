@@ -10,6 +10,7 @@ import com.iopr.model.Products;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,14 +35,16 @@ public class ProductsDAO extends SpringHibernateHSQLDAO{
     
     @Override
     public Collection<Configurable> readAll(Class type){
-        Collection<Configurable> resultList = super.readAll(type);
-        final String getAllProductsStatement = FUNCTION_GET_ALL_PREFIX + type.getSimpleName() + "()";
+        Collection<Configurable> resultList = new ArrayList<Configurable>();
+        final String getAllProductsStatement = FUNCTION_GET_ALL_PREFIX + type.getSimpleName() + FUNCTION_GET_ALL_SUFFIX;
         try {
             CallableStatement statement = connection.prepareCall(getAllProductsStatement);
             ResultSet executeQuery = statement.executeQuery();
             while(executeQuery.next()){
                 resultList.add(new Products(executeQuery.getLong(1), executeQuery.getString(2), executeQuery.getFloat(3)));
             }
+                statement.close();
+                executeQuery.close();
         } catch (SQLException ex) {
             Logger.getLogger(ProductsDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -58,9 +61,27 @@ public class ProductsDAO extends SpringHibernateHSQLDAO{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param type
+     * @param id
+     * @return
+     */
     @Override
-    public Entity read(Class type, int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Object read(Class type, int id) {
+        final String getProductsByIdStatement = FUNCTION_GET_BY_ID_PREFIX + type.getSimpleName() + FUNCTION_GET_BY_ID_SUFFIX;
+        try {
+            CallableStatement statement = connection.prepareCall(getProductsByIdStatement);
+            statement.setInt(1, id);
+            ResultSet executeQuery = statement.executeQuery();
+            if(executeQuery.next())
+                return new Products(executeQuery.getLong(1), executeQuery.getString(2), executeQuery.getFloat(3));
+            statement.close();
+            executeQuery.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     
     

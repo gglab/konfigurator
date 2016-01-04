@@ -33,15 +33,9 @@ import org.hibernate.jpa.internal.EntityManagerFactoryImpl;
 public abstract class SpringHibernateHSQLDAO implements CRUDDAO{
     
     public static final String FUNCTION_GET_ALL_PREFIX = "SELECT * FROM GetAll_";
-   // public static final String 
-    
-    @Override
-    public Collection<Configurable> readAll(Class type){    
-        
-        List<Configurable> resultList = new ArrayList<Configurable>();
-
-        return resultList;
-    }
-    
+    public static final String FUNCTION_GET_ALL_SUFFIX = "()";
+    public static final String FUNCTION_GET_BY_ID_PREFIX = "SELECT * FROM GetByID_";
+    public static final String FUNCTION_GET_BY_ID_SUFFIX = "(?)";
+   // public static final String    
     
 }

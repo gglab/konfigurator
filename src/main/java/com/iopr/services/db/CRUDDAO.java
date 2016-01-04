@@ -19,6 +19,6 @@ public interface CRUDDAO {
     
     public boolean create(Class type, Entity object);
     public boolean update(Class type, Entity object);
-    public Entity read(Class type, int id);
+    public Object read(Class type, int id);
     public <Entity>Collection readAll(Class type);
 }
