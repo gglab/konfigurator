@@ -31,17 +31,18 @@ public class DBResource {
 
     public String getJdbcDriver() {
         //return env.getProperty("jdbcDriver");
-        return "org.hsqldb.jdbcDriver";
+        return "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     }
 
     public String getJdbcConnectionString() {
         //return env.getProperty("jdbcConnectionString");
-        return "jdbc:hsqldb:file:D:\\Programs\\MSSQL\\MSSQL12.MSSQLSERVER\\MSSQL\\DATA\\konfigurator";
+        return "jdbc:sqlserver://localhost;databaseName=konfigurator";
+        //return "jdbc:hsqldb:file:D:\\Programs\\MSSQL\\MSSQL12.MSSQLSERVER\\MSSQL\\DATA\\konfigurator";
     }
 
     public String getDbUser() {
         //return env.getProperty("dbUser");
-        return "sa";
+        return "gg";
     }
 
     public String getDbPassword() {
