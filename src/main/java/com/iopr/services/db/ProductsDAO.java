@@ -70,18 +70,22 @@ public class ProductsDAO extends SpringHibernateHSQLDAO{
     @Override
     public Object read(Class type, int id) {
         final String getProductsByIdStatement = FUNCTION_GET_BY_ID_PREFIX + type.getSimpleName() + FUNCTION_GET_BY_ID_SUFFIX;
+        Products result = null;
         try {
             CallableStatement statement = connection.prepareCall(getProductsByIdStatement);
             statement.setInt(1, id);
             ResultSet executeQuery = statement.executeQuery();
-            if(executeQuery.next())
-                return new Products(executeQuery.getLong(1), executeQuery.getString(2), executeQuery.getFloat(3));
+            if(executeQuery.next()){
+                result = new Products(executeQuery.getLong(1), executeQuery.getString(2), executeQuery.getFloat(3));
+            }else{
+                throw new SQLException("No product of given id exists in the database for query: " + statement);
+            }
             statement.close();
             executeQuery.close();
         } catch (SQLException ex) {
             Logger.getLogger(ProductsDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
+        return result;
     }
     
     

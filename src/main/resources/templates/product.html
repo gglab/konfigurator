@@ -6,11 +6,39 @@ and open the template in the editor.
 -->
 <html xmlns:th="http://www.thymeleaf.org">
     <thead>
-        <title>Konfigurator Produktu</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    </thead>
-    <tbody>
-        <p th:text="${product.getName()}"/>
-        <p th:text="${product.getId()}"/>
-    </tbody>
+    <title>Konfigurator Produktu</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</thead>
+<tbody>
+<div class="container">
+    <div class="jumbotron">
+        <h1 th:text="${productName}"/>
+        <h2 th:text="${productStandardPrice}"/>
+    </div>
+</div>
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Wybór</th>
+                <th>Opcja</th>
+                <th>Cena</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="option : ${options}">
+                <td>
+                    <input type="checkbox" th:checked="${option.isDefault} == true" name="${option.name}"></input>
+                </td>
+                <td th:text="${option.name}">name</td>
+                <td th:text="${option.price}">price</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</tbody>
 </html>
