@@ -17,6 +17,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -82,10 +83,16 @@ public class KonfiguratorController {
             model.addObject("productStandardPrice", product.getStandardPrice());
         }
         if(options!=null){
+            //options.stream().filter()
             model.addObject("options", options);
         }
         
         return model;
+    }
+    
+    @RequestMapping(value = "/product", method=RequestMethod.POST)
+    public void processForm() {
+        System.out.println("TESTGGGG!");
     }
     
 }
