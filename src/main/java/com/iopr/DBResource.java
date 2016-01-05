@@ -16,10 +16,10 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
-
+ 
 
 /**
- *
+ 
  * @author glabg
  */
 @Configuration
