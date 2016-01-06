@@ -28,11 +28,47 @@
                     <tr th:each="option : ${options}">
                         <td th:text="${option.id}"></td>
                         <td><input type="text" th:value="${option.name}" /></td>
-                        <td><input type="text" th:value="${option.isDefault}" /></td>
-                        <td><input type="text" th:value="${option.price}" /></td>
+                        <td><input type="checkbox" th:checked="${option.isDefault} == true" /></td>
+                        <td><input type="number"  min="0" th:value="${option.price}" /></td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+        <div class="container">
+            <h2>Dodaj opcję</h2>
+            <div class="container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>nazwa</th>
+                            <th>cena</th>
+                            <th>produkt</th>
+                            <th>grupa</th>
+                            <th>dodaj</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="text"/></td>
+                            <td><input type="number" min="0"/></td>
+                            <td><select >
+                                    <option th:each="product : ${products}"
+                                            th:value="${product.id}"
+                                            th:text="${product.name}"/>
+                                </select>
+                            <td>
+                                <select >
+                                    <option th:each="group : ${groups}"
+                                            th:value="${group.id}"
+                                            th:text="${group.name}"/>
+
+                                </select>
+                            </td>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div>
             <a href="admin">Powrót</a>

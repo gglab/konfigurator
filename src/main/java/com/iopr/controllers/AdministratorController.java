@@ -6,6 +6,7 @@
 package com.iopr.controllers;
 
 import com.iopr.model.Configurable;
+import com.iopr.model.Groups;
 import com.iopr.model.Options;
 import com.iopr.model.Products;
 import com.iopr.services.db.GroupsDAO;
@@ -38,9 +39,9 @@ public class AdministratorController {
         ret.addObject("products", products);
         return ret;
     }
-    
-    @RequestMapping(value = "adminProduct", method=RequestMethod.POST)
-    public void addProduct(){
+
+    @RequestMapping(value = "adminProduct", method = RequestMethod.POST)
+    public void addProduct() {
         System.out.println("Linia");
     }
 
@@ -49,6 +50,10 @@ public class AdministratorController {
         ModelAndView ret = new ModelAndView();
         List<Configurable> options = (List<Configurable>) OptionsDAO.getInstance().readAll(Options.class);
         ret.addObject("options", options);
+        List<Configurable> products = (List<Configurable>) ProductsDAO.getInstance().readAll(Products.class);
+        ret.addObject("products", products);
+        List<Configurable> groups = (List<Configurable>) GroupsDAO.getInstance().readAll(Groups.class);
+        ret.addObject("groups", groups);
         return ret;
     }
 
