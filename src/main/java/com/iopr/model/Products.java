@@ -37,6 +37,10 @@ public class Products implements Configurable{
     
     @Column(name = "standardPrice")
     private float standardPrice;
+
+    public Products() {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     public float getStandardPrice() {
         return standardPrice;
@@ -61,7 +65,12 @@ public class Products implements Configurable{
     public void setId(long id) {
         this.id = id;
     }
-    
-    
 
+    @Override
+    public String toString() {
+        return "Products{" + "id=" + id + ", name=" + name + ", standardPrice=" + standardPrice + '}';
+    }
+    
+    
+    
 }

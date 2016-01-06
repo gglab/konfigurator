@@ -1,4 +1,5 @@
 <!DOCTYPE HTML>
+
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Zarządzanie Produktami</title>
@@ -45,9 +46,14 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><input type="text"/></td>
-                            <td><input type="number" min="0"/></td>
-                        </tr>
+                    <form action="#" th:action="@{/adminProduct/create}" th:object="${newProduct}" method="post">
+                        <td><input type="text" th:field="${newProduct.name}"/></td>
+                        <td><input type="number" min="0" th:field="${newProduct.standardPrice}"/></td>
+                        <td>
+                            <button type="submit" name="addProduct/" >Create</button>
+                        </td>
+                    </form>
+                    </tr>
                     </tbody>
                 </table>
             </div>

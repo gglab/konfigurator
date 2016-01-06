@@ -16,6 +16,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -36,13 +37,16 @@ public class AdministratorController {
     public ModelAndView adminProduct() {
         ModelAndView ret = new ModelAndView();
         List<Configurable> products = (List<Configurable>) ProductsDAO.getInstance().readAll(Products.class);
+        Products newProduct = new Products();
         ret.addObject("products", products);
+        ret.addObject("newProduct", newProduct);
         return ret;
     }
 
-    @RequestMapping(value = "adminProduct", method = RequestMethod.POST)
-    public void addProduct() {
-        System.out.println("Linia");
+    @RequestMapping(value = "adminProduct/create", method = RequestMethod.POST)/*, params={"addProduct"}*/
+    public String addProduct(Products newProduct){//(@RequestParam("name") String name,@RequestParam("price") float price) {
+        ProductsDAO.getInstance().create(Products.class, newProduct);
+        return "redirect:/adminProduct";
     }
 
     @RequestMapping("/adminOption")

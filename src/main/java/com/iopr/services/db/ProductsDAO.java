@@ -20,40 +20,49 @@ import javax.persistence.Entity;
  *
  * @author glabg
  */
-public class ProductsDAO extends SpringHibernateHSQLDAO{
+public class ProductsDAO extends SpringHibernateHSQLDAO {
 
     private static ProductsDAO dao = null;
-    
-    private ProductsDAO(){ }
-    
-    public static ProductsDAO getInstance(){
-        if(dao==null){
+
+    private ProductsDAO() {
+    }
+
+    public static ProductsDAO getInstance() {
+        if (dao == null) {
             dao = new ProductsDAO();
         }
         return dao;
     }
-    
+
     @Override
-    public Collection<Configurable> readAll(Class type){
+    public Collection<Configurable> readAll(Class type) {
         Collection<Configurable> resultList = new ArrayList<Configurable>();
         final String getAllProductsStatement = FUNCTION_GET_ALL_PREFIX + type.getSimpleName() + FUNCTION_GET_ALL_SUFFIX;
         try {
             CallableStatement statement = connection.prepareCall(getAllProductsStatement);
             ResultSet executeQuery = statement.executeQuery();
-            while(executeQuery.next()){
+            while (executeQuery.next()) {
                 resultList.add(new Products(executeQuery.getLong(1), executeQuery.getString(2), executeQuery.getFloat(3)));
             }
-                statement.close();
-                executeQuery.close();
+            statement.close();
+            executeQuery.close();
         } catch (SQLException ex) {
             Logger.getLogger(ProductsDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return resultList;
     }
-    
-    @Override
-    public boolean create(Class type, Entity object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+//    @Override
+    public boolean create(Class type, Products newProduct) {
+        final String createProductStatement = PROCEDURE_CREATE_PREFIX + type.getSimpleName() + " " + newProduct.getName() + "," + newProduct.getStandardPrice();
+        try {
+            CallableStatement statement = connection.prepareCall(createProductStatement);
+            statement.executeQuery();
+                return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 
     @Override
@@ -75,9 +84,9 @@ public class ProductsDAO extends SpringHibernateHSQLDAO{
             CallableStatement statement = connection.prepareCall(getProductsByIdStatement);
             statement.setInt(1, id);
             ResultSet executeQuery = statement.executeQuery();
-            if(executeQuery.next()){
+            if (executeQuery.next()) {
                 result = new Products(executeQuery.getLong(1), executeQuery.getString(2), executeQuery.getFloat(3));
-            }else{
+            } else {
                 throw new SQLException("No product of given id exists in the database for query: " + statement);
             }
             statement.close();
@@ -92,7 +101,5 @@ public class ProductsDAO extends SpringHibernateHSQLDAO{
     public boolean delete(Class type, Entity object) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
-    
+
 }

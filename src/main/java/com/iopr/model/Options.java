@@ -16,8 +16,8 @@ import javax.persistence.Table;
  *
  * @author glabg
  */
-@Entity
-@Table(name = "options")
+//@Entity
+//@Table(name = "options")
 public class Options implements Configurable{
     
     @Id

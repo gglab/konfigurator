@@ -39,8 +39,8 @@ public class GroupsDAO extends SpringHibernateHSQLDAO {
         return dao;
     }
 
-    @Override
-    public boolean create(Class type, Entity object) {
+//    @Override
+    public boolean create(Class type) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
