@@ -9,6 +9,31 @@
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     </head>
     <body>
+        <div class="container">
+            <h2>Lista produktów</h2>
+        </div>
+        <div class="container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>id opcji</th>
+                        <th>nazwa</th>
+                        <th>domyślna</th>
+                        <th>cena </th>
+                        <th>uaktualnij</th>
+                        <th>usuń</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="option : ${options}">
+                        <td th:text="${option.id}"></td>
+                        <td><input type="text" th:value="${option.name}" /></td>
+                        <td><input type="text" th:value="${option.isDefault}" /></td>
+                        <td><input type="text" th:value="${option.price}" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <div>
             <a href="admin">Powrót</a>
         </div>

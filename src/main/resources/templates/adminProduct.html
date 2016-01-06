@@ -12,6 +12,29 @@
         <form action="#" th:action="@{/adminProduct}" method="post">
             <input type="submit" />
         </form>
+        <div class="container">
+            <h2>Lista produktów</h2>
+        </div>
+        <div class="container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>id produktu</th>
+                        <th>nazwa</th>
+                        <th>cena podstawowa</th>
+                        <th>uaktualnij</th>
+                        <th>usuń</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="product : ${products}">
+                        <td th:text="${product.id}"></td>
+                        <td><input type="text" th:value="${product.name}" /></td>
+                        <td><input type="text" th:value="${product.standardPrice}" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <div>
             <a href="admin">Powrót</a>
         </div>
