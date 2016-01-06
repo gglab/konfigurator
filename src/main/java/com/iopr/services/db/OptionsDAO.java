@@ -38,13 +38,31 @@ public class OptionsDAO extends SpringHibernateHSQLDAO {
     }
 
 //    @Override
-    public boolean create(Class type) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean create(Class type, Options newOption) {
+        final String createProductStatement = PROCEDURE_CREATE_PREFIX + type.getSimpleName() + " " + newOption.getProductID() + "," + newOption.getName() + ","
+                + newOption.getPrice() + "," + newOption.isIsDefault() + "," + newOption.getGroupID();
+        try {
+            CallableStatement statement = connection.prepareCall(createProductStatement);
+            statement.executeQuery();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 
-    @Override
-    public boolean update(Class type, Entity object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean update(Class type, Options updateOption) {
+                final String updateOptionStatement = PROCEDURE_UPDATE_PREFIX + type.getSimpleName() + " " + updateOption.getId() + "," + updateOption.getName() + ","
+                + updateOption.getPrice();
+        System.out.println(updateOptionStatement);
+        try {
+            CallableStatement statement = connection.prepareCall(updateOptionStatement);
+            statement.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return true;
     }
 
     @Override
@@ -60,7 +78,8 @@ public class OptionsDAO extends SpringHibernateHSQLDAO {
             CallableStatement statement = connection.prepareCall(getAllStatement);
             ResultSet executeQuery = statement.executeQuery();
             while (executeQuery.next()) {
-                resultList.add(new Options(executeQuery.getLong(1), executeQuery.getString(2), executeQuery.getBoolean(3), executeQuery.getFloat(4)));
+                resultList.add(new Options(executeQuery.getLong(1), executeQuery.getString(2), executeQuery.getBoolean(3), executeQuery.getFloat(4), executeQuery.getLong(5),
+                        executeQuery.getLong(6)));
             }
             statement.close();
             executeQuery.close();
@@ -71,8 +90,17 @@ public class OptionsDAO extends SpringHibernateHSQLDAO {
     }
 
     @Override
-    public boolean delete(Class type, Entity object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean remove(Class type, long id) {
+        final String deleteOptionStatement = PROCEDURE_DELETE_PREFIX + type.getSimpleName() + " " + Long.toString(id);
+        System.out.println(deleteOptionStatement);
+        CallableStatement statement;
+        try {
+            statement = connection.prepareCall(deleteOptionStatement);
+            statement.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return true;
     }
 
 }

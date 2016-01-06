@@ -18,27 +18,44 @@ import javax.persistence.Table;
  */
 //@Entity
 //@Table(name = "options")
-public class Options implements Configurable{
-    
+public class Options implements Configurable {
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    
+
     @Column(name = "name")
     private String name;
-    
+
     @Column(name = "isDefault")
     private boolean isDefault;
-    
+
     @Column(name = "price")
     private float price;
+
+    private long productID;
+
+    private long groupID;
 
     public Options(long id, String name, boolean isDefault, float price) {
         this.id = id;
         this.name = name;
         this.isDefault = isDefault;
         this.price = price;
+    }
+
+    public Options(long id, String name, boolean isDefault, float price, long productID, long groupID) {
+        this.id = id;
+        this.name = name;
+        this.isDefault = isDefault;
+        this.price = price;
+        this.productID = productID;
+        this.groupID = groupID;
+    }
+
+    public Options() {
+
     }
 
     public long getId() {
@@ -72,6 +89,38 @@ public class Options implements Configurable{
     public void setPrice(float price) {
         this.price = price;
     }
-    
-    
+
+    /**
+     * @return the productID
+     */
+    public long getProductID() {
+        return productID;
+    }
+
+    /**
+     * @param productID the productID to set
+     */
+    public void setProductID(long productID) {
+        this.productID = productID;
+    }
+
+    /**
+     * @return the groupID
+     */
+    public long getGroupID() {
+        return groupID;
+    }
+
+    /**
+     * @param groupID the groupID to set
+     */
+    public void setGroupID(long groupID) {
+        this.groupID = groupID;
+    }
+
+    @Override
+    public String toString() {
+        return "Options{" + "id=" + id + ", name=" + name + ", isDefault=" + isDefault + ", price=" + price + ", productID=" + productID + ", groupID=" + groupID + '}';
+    }
+
 }

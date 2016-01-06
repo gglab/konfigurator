@@ -26,10 +26,18 @@
                 </thead>
                 <tbody>
                     <tr th:each="product : ${products}">
-                        <td th:text="${product.id}"></td>
-                        <td><input type="text" th:value="${product.name}" /></td>
-                        <td><input type="number" min="0" th:value="${product.standardPrice}" /></td>
-                    </tr>
+                <form action="#" th:action="@{/adminProduct/update}" th:object="${newProduct}" method="post">
+                    <td th:text="${product.id}"></td>
+                    <input type="hidden" th:value="${product.id}" id="id" name="id"/>
+                    <td><input type="text" th:value="${product.name}" id="name" name="name"/></td>
+                    <td><input type="number" min="0" th:value="${product.standardPrice}" id="standardPrice" name="standardPrice"/></td>
+                    <td><button type="submit" name="updateProduct/">Update</button></td>
+                </form>
+                <td><form action="#" th:action="@{/adminProduct/remove}" th:object="${product}" method="post">
+                        <input type="hidden" th:value="${product.id}" id="id" name="id"/>
+                        <button type="submit" name="deleteProduct/">Delete</button>
+                    </form></td>
+                </tr>
                 </tbody>
             </table>
         </div>

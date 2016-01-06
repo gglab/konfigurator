@@ -42,8 +42,8 @@ public class RulesDAO extends SpringHibernateHSQLDAO {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public boolean update(Class type, Entity object) {
+
+    public boolean update(Class type, Object object) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -71,7 +71,7 @@ public class RulesDAO extends SpringHibernateHSQLDAO {
     }
 
     @Override
-    public boolean delete(Class type, Entity object) {
+    public boolean remove(Class type, long id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -1,13 +1,3 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/**
- * Author:  marr
- * Created: 2016-01-06
- */
-
 use konfigurator;
 GO
 
@@ -146,18 +136,6 @@ END
 GO
 
 
-IF (OBJECT_ID('Update_Options') IS NOT NULL)
-  DROP PROCEDURE Update_Options
-GO
-CREATE PROCEDURE Update_Options @optionID INT, @price MONEY
-AS
-BEGIN
-	UPDATE options SET price = @price
-	WHERE id = @optionID
-END
-GO
-
-
 IF (OBJECT_ID('groupName2ID') IS NOT NULL)
   DROP FUNCTION groupName2ID
 GO
@@ -249,17 +227,17 @@ BEGIN
 	UPDATE options SET isActive = 0
 	WHERE id IN (SELECT id FROM deleted)
 	
- 	UPDATE options SET name = 'del_' + name
+ 	UPDATE options SET name = 'del_' + name 
  	WHERE id IN (SELECT id FROM deleted)
  	
 END
 GO
 
 
-IF (OBJECT_ID('Delete_Options') IS NOT NULL)
-  DROP PROCEDURE Delete_Options
+IF (OBJECT_ID('Remove_Options') IS NOT NULL)
+  DROP PROCEDURE Remove_Options
 GO
-CREATE PROCEDURE Delete_Options @optionID INT, @newDefaultOption INT = NULL
+CREATE PROCEDURE Remove_Options @optionID INT, @newDefaultOption INT = NULL
 AS
 BEGIN
 	DECLARE  @default BIT
@@ -312,7 +290,7 @@ BEGIN
 		UPDATE products SET isActive = 0
 		WHERE id = @productID
 		
-		UPDATE products SET name = 'del_' + name
+		UPDATE products SET name = 'del_' + name + '_'+CAST(id AS VARCHAR)
 		WHERE id = @productID
 	END
 END
@@ -474,5 +452,58 @@ BEGIN
 	WHERE
 	id = @groupID
 	RETURN
+END
+GO
+
+
+IF (OBJECT_ID('Update_Products') IS NOT NULL)
+  DROP PROCEDURE Update_Products
+GO
+CREATE PROCEDURE Update_Products @productID INT, @name VARCHAR(30), @standardPrice MONEY
+AS
+BEGIN
+	UPDATE products SET name = @name
+	WHERE id = @productID
+	
+	UPDATE products SET standardPrice = @standardPrice
+	WHERE id = @productID
+END
+GO
+
+
+IF (OBJECT_ID('Update_Options') IS NOT NULL)
+  DROP PROCEDURE Update_Options
+GO
+CREATE PROCEDURE Update_Options @optionID INT, @name VARCHAR(30), @price MONEY
+AS
+BEGIN
+	UPDATE options SET name = @name
+	WHERE id = @optionID
+	
+	UPDATE options SET price = @price
+	WHERE id = @optionID
+END
+GO
+
+IF (OBJECT_ID('Update_Rules') IS NOT NULL)
+  DROP PROCEDURE Update_Rules
+GO
+CREATE PROCEDURE Update_Rules @ruleID INT, @name VARCHAR(30)
+AS
+BEGIN
+	UPDATE products SET name = @name
+	WHERE id = @ruleID
+END
+GO
+
+
+IF (OBJECT_ID('Update_Groups') IS NOT NULL)
+  DROP PROCEDURE Update_Groups
+GO
+CREATE PROCEDURE Update_Groups @groupID INT, @name VARCHAR(30)
+AS
+BEGIN
+	UPDATE products SET name = @name
+	WHERE id = @groupID
 END
 GO

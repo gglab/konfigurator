@@ -43,9 +43,21 @@ public class AdministratorController {
         return ret;
     }
 
-    @RequestMapping(value = "adminProduct/create", method = RequestMethod.POST)/*, params={"addProduct"}*/
-    public String addProduct(Products newProduct){//(@RequestParam("name") String name,@RequestParam("price") float price) {
+    @RequestMapping(value = "adminProduct/create", method = RequestMethod.POST)
+    public String addProduct(Products newProduct) {
         ProductsDAO.getInstance().create(Products.class, newProduct);
+        return "redirect:/adminProduct";
+    }
+
+    @RequestMapping(value = "adminProduct/remove", method = RequestMethod.POST)
+    public String deleteProduct(Products delProduct) {
+        ProductsDAO.getInstance().remove(Products.class, delProduct.getId());
+        return "redirect:/adminProduct";
+    }
+
+    @RequestMapping(value = "adminProduct/update", method = RequestMethod.POST)
+    public String updateProduct(Products updatedProduct) {
+        ProductsDAO.getInstance().update(Products.class, updatedProduct);
         return "redirect:/adminProduct";
     }
 
@@ -58,7 +70,29 @@ public class AdministratorController {
         ret.addObject("products", products);
         List<Configurable> groups = (List<Configurable>) GroupsDAO.getInstance().readAll(Groups.class);
         ret.addObject("groups", groups);
+        Options newOption = new Options();
+        ret.addObject("newOption", newOption);
         return ret;
+    }
+
+    @RequestMapping(value = "adminOption/create", method = RequestMethod.POST)
+    public String addOption(Options newOption) {
+        System.out.println(newOption.toString());
+        OptionsDAO.getInstance().create(Options.class, newOption);
+        return "redirect:/adminOption";
+    }
+
+    @RequestMapping(value = "adminOption/remove", method = RequestMethod.POST)
+    public String deleteOption(Options delOption) {
+        OptionsDAO.getInstance().remove(Options.class, delOption.getId());
+        return "redirect:/adminOption";
+    }
+
+    @RequestMapping(value = "adminOption/update", method = RequestMethod.POST)
+    public String updateOption(Options updatedOptions) {
+        System.out.println(updatedOptions.toString());
+        OptionsDAO.getInstance().update(Options.class, updatedOptions);
+        return "redirect:/adminOption";
     }
 
     @RequestMapping("/adminGroup")

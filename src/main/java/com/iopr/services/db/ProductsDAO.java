@@ -58,16 +58,24 @@ public class ProductsDAO extends SpringHibernateHSQLDAO {
         try {
             CallableStatement statement = connection.prepareCall(createProductStatement);
             statement.executeQuery();
-                return true;
+            return true;
         } catch (SQLException ex) {
             Logger.getLogger(ProductsDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
 
-    @Override
-    public boolean update(Class type, Entity object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean update(Class type, Products updatedProducts) {
+        final String updateProductStatemnet = PROCEDURE_UPDATE_PREFIX + type.getSimpleName() + " " + updatedProducts.getId() + "," + updatedProducts.getName() + ","
+                + updatedProducts.getStandardPrice();
+        try {
+            CallableStatement statement = connection.prepareCall(updateProductStatemnet);
+            statement.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return true;
     }
 
     /**
@@ -98,8 +106,17 @@ public class ProductsDAO extends SpringHibernateHSQLDAO {
     }
 
     @Override
-    public boolean delete(Class type, Entity object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean remove(Class type, long id) {
+        final String deleteProductStatement = PROCEDURE_DELETE_PREFIX + type.getSimpleName() + " " + Long.toString(id);
+        System.out.println(deleteProductStatement);
+        CallableStatement statement;
+        try {
+            statement = connection.prepareCall(deleteProductStatement);
+            statement.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return true;
     }
 
 }
