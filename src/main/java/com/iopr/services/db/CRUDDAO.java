@@ -21,4 +21,5 @@ public interface CRUDDAO {
     public boolean update(Class type, Entity object);
     public Object read(Class type, int id);
     public <Entity>Collection readAll(Class type);
+    public boolean delete(Class type, Entity object);
 }

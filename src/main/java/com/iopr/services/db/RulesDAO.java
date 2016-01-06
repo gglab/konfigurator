@@ -70,4 +70,9 @@ public class RulesDAO extends SpringHibernateHSQLDAO {
         return resultList;
     }
 
+    @Override
+    public boolean delete(Class type, Entity object) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }
