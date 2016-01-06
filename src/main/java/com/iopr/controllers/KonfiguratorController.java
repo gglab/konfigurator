@@ -12,7 +12,9 @@ import com.iopr.model.Groups;
 import com.iopr.model.Options;
 import com.iopr.model.ProductToOptionLink;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import javax.persistence.Entity;
 import org.springframework.stereotype.Controller;
@@ -27,17 +29,17 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class KonfiguratorController {
-    
+
     private List<Configurable> options = new ArrayList<Configurable>();
     private List<Configurable> groups = new ArrayList<Configurable>();
     private List<Configurable> links = new ArrayList<Configurable>();
-    
+
     private void init() {
-        
+
         Options o1 = new Options(1, "option1", true, 8);
         Options o2 = new Options(2, "option2", false, 15);
         Options o3 = new Options(3, "option3", false, 5);
-        
+
         Options o4 = new Options(4, "option4", true, 80);
         Options o5 = new Options(5, "option5", false, 12);
         options.add(o1);
@@ -45,12 +47,12 @@ public class KonfiguratorController {
         options.add(o2);
         options.add(o3);
         options.add(o4);
-        
+
         Groups g1 = new Groups(1, "grupa1");
         Groups g2 = new Groups(2, "grupa2");
         groups.add(g1);
         groups.add(g2);
-        
+
         ProductToOptionLink l1 = new ProductToOptionLink(1, 1, 1, 1);
         ProductToOptionLink l2 = new ProductToOptionLink(2, 1, 2, 1);
         ProductToOptionLink l3 = new ProductToOptionLink(3, 1, 3, 1);
@@ -62,37 +64,49 @@ public class KonfiguratorController {
         links.add(l4);
         links.add(l5);
     }
-    
+
     @RequestMapping("/")
-    public ModelAndView index(@RequestParam(value="name", required=false, defaultValue="World") String name) {
+    public ModelAndView index(@RequestParam(value = "name", required = false, defaultValue = "World") String name) {
         List<Configurable> products = (List<Configurable>) ProductsDAO.getInstance().readAll(Products.class);
         ModelAndView model = new ModelAndView("index");
         model.addObject("name", name);
         model.addObject("products", products);
         return model;
     }
-    
+
     @RequestMapping("/product")
-    public ModelAndView product(@RequestParam(value="id", required=true) int id) {
+    public ModelAndView product(@RequestParam(value = "id", required = true) int id) {
         init();
-        ModelAndView model =  new ModelAndView();
+        ModelAndView model = new ModelAndView();
         Products product = (Products) ProductsDAO.getInstance().read(Products.class, id);
-        if(product != null){
+        if (product != null) {
             model.addObject("productName", product.getName());
             model.addObject("productId", product.getId());
-            model.addObject("productStandardPrice", product.getStandardPrice());
+            //model.addObject("productStandardPrice", product.getStandardPrice());
         }
-        if(options!=null){
-            //options.stream().filter()
+        if (options != null) {
             model.addObject("options", options);
+            model.addObject("productStandardPrice", getPrice(options, product));
         }
-        
+
         return model;
     }
-    
-    @RequestMapping(value = "/product", method=RequestMethod.POST)
-    public void processForm() {
-        System.out.println("TESTGGGG!");
+
+    public float getPrice(Collection<Configurable> options, Products product) {
+        float standardPrice = product.getStandardPrice();
+        for (Iterator<Configurable> iterator = options.iterator(); iterator.hasNext();) {
+            Options next = (Options) iterator.next();
+            if (next.isIsDefault()) {
+                standardPrice += next.getPrice();
+            }
+        }
+        return standardPrice;
     }
-    
+
+    @RequestMapping(value = "/product", method = RequestMethod.POST)
+    public void processForm(@RequestParam("json") String json) {
+        System.out.println("TESTGGGG!");
+        System.out.println(json);
+    }
+
 }

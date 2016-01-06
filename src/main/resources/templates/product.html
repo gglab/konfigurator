@@ -12,6 +12,19 @@ and open the template in the editor.
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        function calcPrice(id) {
+            
+            var jsonfile = {json: JSON.stringify(id)};
+            $.ajax({
+                type: 'POST',
+                url: "/product",
+                data: jsonfile,
+                dataType: "json"
+            });
+        }
+
+    </script>
 </thead>
 <tbody>
 <div class="container">
@@ -32,7 +45,7 @@ and open the template in the editor.
         <tbody>
             <tr th:each="option : ${options}">
                 <td>
-                    <input type="checkbox" th:checked="${option.isDefault} == true" name="${option.name}"></input>
+                    <input type="checkbox" th:checked="${option.isDefault} == true" name="${option.name}" th:onclick="'javascript:calcPrice(' + ${option.id} + ');'"></input>
                 </td>
                 <td th:text="${option.name}">name</td>
                 <td th:text="${option.price}">price</td>
@@ -41,7 +54,7 @@ and open the template in the editor.
     </table>
 </div>
 <form action="#" th:action="@{/product}" method="post">
-  <input type="submit" />
+    <input type="submit" />
 </form>
 </tbody>
 </html>
