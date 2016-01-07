@@ -42,26 +42,26 @@ public class OptionsDAO extends SpringHibernateHSQLDAO {
 //    @Override
     public boolean create(Class type, Options newOption) {
         final String createProductStatement = PROCEDURE_CREATE_PREFIX + type.getSimpleName() + " " + newOption.getProductID() + "," + newOption.getName() + ","
-                + newOption.getPrice() + "," + newOption.isIsDefault() + "," + newOption.getGroupID();
+                + newOption.getPrice() + "," + 0 + "," + newOption.getGroupID();
         try {
             CallableStatement statement = connection.prepareCall(createProductStatement);
             statement.executeQuery();
             return true;
         } catch (SQLException ex) {
-            Logger.getLogger(ProductsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OptionsDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
 
     public boolean update(Class type, Options updateOption) {
-                final String updateOptionStatement = PROCEDURE_UPDATE_PREFIX + type.getSimpleName() + " " + updateOption.getId() + "," + updateOption.getName() + ","
+                final String updateOptionStatement = PROCEDURE_UPDATE_PREFIX + type.getSimpleName() + " " + updateOption.getId() + ",'" + updateOption.getName() + "',"
                 + updateOption.getPrice();
         System.out.println(updateOptionStatement);
         try {
             CallableStatement statement = connection.prepareCall(updateOptionStatement);
             statement.executeQuery();
         } catch (SQLException ex) {
-            Logger.getLogger(ProductsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OptionsDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return true;
@@ -100,7 +100,7 @@ public class OptionsDAO extends SpringHibernateHSQLDAO {
             statement = connection.prepareCall(deleteOptionStatement);
             statement.executeQuery();
         } catch (SQLException ex) {
-            Logger.getLogger(ProductsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OptionsDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return true;
     }

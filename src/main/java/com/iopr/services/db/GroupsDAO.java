@@ -40,13 +40,27 @@ public class GroupsDAO extends SpringHibernateHSQLDAO {
     }
 
 //    @Override
-    public boolean create(Class type) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean create(Class type, Groups newGroup) {
+        final String createGroupStatement = PROCEDURE_CREATE_PREFIX + type.getSimpleName() + " " + newGroup.getName();
+        try {
+            CallableStatement statement = connection.prepareCall(createGroupStatement);
+            statement.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(GroupsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return true;
     }
 
-
-    public boolean update(Class type, Object object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean update(Class type, Groups updatedGroup) {
+        final String updateGroupStatement = PROCEDURE_UPDATE_PREFIX + type.getSimpleName() + " " + updatedGroup.getId() + ",'" + updatedGroup.getName()+"'";
+        System.out.println(updateGroupStatement);
+        try {
+            CallableStatement statement = connection.prepareCall(updateGroupStatement);
+            statement.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(GroupsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return true;
     }
 
     @Override

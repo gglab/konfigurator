@@ -20,7 +20,7 @@
                         <th>nazwa</th>
                         <th>id produktu</th>
                         <th>id grupy</th>
-                        <th>domyślna</th>
+                        <!--th>domyślna</th-->
                         <th>cena </th>
                         <th>uaktualnij</th>
                         <th>usuń</th>
@@ -34,11 +34,11 @@
                     <td><input type="text" th:value="${option.name}" id="name" name="name"/></td>
                     <td><input type="text" th:value="${option.productID}" readonly="true"/></td>
                     <td><input type="text" th:value="${option.groupID}" readonly="true"/></td>
-                    <td><input type="checkbox" th:checked="${option.isDefault} == true" /></td>
+                    <!--td><input type="checkbox" th:checked="${option.isDefault} == true" /></td-->
                     <td><input type="number"  min="0" th:value="${option.price}" id="price" name="price"/></td>
                     <td><button type="submit" name="updateOption/">Update</button></td>
                 </form>
-                <td><form action="#" th:action="@{/adminOption/remove}" th:object="${option}" method="post">
+                <td><form action="#" th:action="@{/adminOption/remove}" th:object="${newOption}" method="post">
                         <input type="hidden" th:value="${option.id}" id="id" name="id"/>
                         <button type="submit" name="deleteOption/">Delete</button>
                     </form></td>
@@ -54,7 +54,7 @@
                         <tr>
                             <th>nazwa</th>
                             <th>cena</th>
-                            <th>domyślny</th>
+                            <!--th>domyślny</th-->
                             <th>produkt</th>
                             <th>grupa</th>
                             <th>dodaj</th>
@@ -65,7 +65,7 @@
                     <form action="#" th:action="@{/adminOption/create}" th:object="${newOption}" method="post">
                         <td><input type="text" th:field="${newOption.name}"/></td>
                         <td><input type="number" min="0" th:field="${newOption.price}"/></td>
-                        <td><input type="checkbox" th:field="${newOption.isDefault}"/></td>
+                        <!--td><input type="checkbox" th:field="${newOption.isDefault}"/></td-->
                         <td><select class="form-control" id="productID" name="productID">
                                 <option th:each="product : ${products}"
                                         th:value="${product.id}"

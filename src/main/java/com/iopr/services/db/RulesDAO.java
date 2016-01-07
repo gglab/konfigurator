@@ -38,10 +38,18 @@ public class RulesDAO extends SpringHibernateHSQLDAO {
     }
 
 //    @Override
-    public boolean create(Class type) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean create(Class type, Rules newRule) {
+        final String createRuleStatement = PROCEDURE_CREATE_PREFIX + type.getSimpleName() + " " +  newRule.getProductID() +", " + newRule.getOption1ID()
+                                                                                + ", " + newRule.getOption2ID();
+        System.out.println(createRuleStatement);
+        try {
+            CallableStatement statement = connection.prepareCall(createRuleStatement);
+            statement.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(RulesDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return true;
     }
-
 
     public boolean update(Class type, Object object) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -60,19 +68,28 @@ public class RulesDAO extends SpringHibernateHSQLDAO {
             CallableStatement statement = connection.prepareCall(getAllStatement);
             ResultSet executeQuery = statement.executeQuery();
             while (executeQuery.next()) {
-                resultList.add(new Rules(executeQuery.getLong(1), executeQuery.getLong(2),executeQuery.getLong(3),executeQuery.getLong(4)));
+                resultList.add(new Rules(executeQuery.getLong(1), executeQuery.getLong(2), executeQuery.getLong(3), executeQuery.getLong(4)));
             }
             statement.close();
             executeQuery.close();
         } catch (SQLException ex) {
-            Logger.getLogger(GroupsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RulesDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return resultList;
     }
 
     @Override
     public boolean remove(Class type, long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String deleteRuleStatement = PROCEDURE_DELETE_PREFIX + type.getSimpleName() + " " + Long.toString(id);
+        System.out.println(deleteRuleStatement);
+        CallableStatement statement;
+        try {
+            statement = connection.prepareCall(deleteRuleStatement);
+            statement.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(RulesDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return true;
     }
 
 }

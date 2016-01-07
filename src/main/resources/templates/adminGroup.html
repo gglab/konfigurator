@@ -1,4 +1,5 @@
 <!DOCTYPE HTML>
+
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Zarządzanie Grupami</title>
@@ -9,30 +10,55 @@
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     </head>
     <body>
-        <form action="#" th:action="@{/adminGroup}" method="post">
-            <input type="submit" />
-        </form>
         <div class="container">
-            <h2>Lista produktów</h2>
+            <h2>Lista grup</h2>
         </div>
         <div class="container">
             <table class="table">
                 <thead>
                     <tr>
-                        <th>id produktu</th>
+                        <th>id grupy</th>
                         <th>nazwa</th>
-                        <th>cena podstawowa</th>
-                        <th>uaktualnij</th>
-                        <th>usuń</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:each="group : ${groups}">
-                        <td th:text="${group.id}"></td>
-                        <td><input type="text" th:value="${group.name}" /></td>
-                    </tr>
+                <form action="#" th:action="@{/adminGroup/update}" th:object="${newGroup}" method="post">
+                    <td th:text="${group.id}"></td>
+                    <input type="hidden" th:value="${group.id}" id="id" name="id"/>
+                    <td><input type="text" th:value="${group.name}" id="name" name="name"/></td>
+                    <td><button type="submit" name="updateGroup/">Update</button></td>
+                </form>
+                <!--td><form action="#" th:action="@{/admiGroup/remove}" th:object="${group}" method="post">
+                        <input type="hidden" th:value="${group.id}" id="id" name="id"/>
+                        <button type="submit" name="deleteGroup/">Delete</button>
+                    </form></td-->
+                </tr>
                 </tbody>
             </table>
+        </div>
+        <div class="container">
+            <h2>Dodaj grupę</h2>
+            <div class="container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>nazwa</th>
+                            <th>dodaj</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                    <form action="#" th:action="@{/adminGroup/create}" th:object="${newGroup}" method="post">
+                        <td><input type="text" th:field="${newGroup.name}"/></td>
+                        <td>
+                            <button type="submit" name="addGroup/" >Create</button>
+                        </td>
+                    </form>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div>
             <a href="admin">Powrót</a>

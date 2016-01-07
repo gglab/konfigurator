@@ -18,19 +18,22 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "groups")
-public class Groups implements Configurable{
-    
+public class Groups implements Configurable {
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    
+
     @Column(name = "name")
     private String name;
 
     public Groups(long id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public Groups() {
     }
 
     public long getId() {
@@ -48,6 +51,5 @@ public class Groups implements Configurable{
     public void setName(String name) {
         this.name = name;
     }
-    
-    
+
 }

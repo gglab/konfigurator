@@ -9,9 +9,11 @@ import com.iopr.model.Configurable;
 import com.iopr.model.Groups;
 import com.iopr.model.Options;
 import com.iopr.model.Products;
+import com.iopr.model.Rules;
 import com.iopr.services.db.GroupsDAO;
 import com.iopr.services.db.OptionsDAO;
 import com.iopr.services.db.ProductsDAO;
+import com.iopr.services.db.RulesDAO;
 import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -98,16 +100,50 @@ public class AdministratorController {
     @RequestMapping("/adminGroup")
     public ModelAndView adminGroup() {
         ModelAndView ret = new ModelAndView();
-        List<Configurable> groups = (List<Configurable>) GroupsDAO.getInstance().readAll(Options.class);
+        List<Configurable> groups = (List<Configurable>) GroupsDAO.getInstance().readAll(Groups.class);
         ret.addObject("groups", groups);
+        Groups newGroup = new Groups();
+        ret.addObject("newGroup", newGroup);
 
         return ret;
+    }
+
+    @RequestMapping(value = "adminGroup/update", method = RequestMethod.POST)
+    public String updateGroup(Groups updatedGroup) {
+        GroupsDAO.getInstance().update(Groups.class, updatedGroup);
+        return "redirect:/adminGroup";
+    }
+
+    @RequestMapping(value = "adminGroup/create", method = RequestMethod.POST)
+    public String addGroup(Groups newGroup) {
+        GroupsDAO.getInstance().create(Groups.class, newGroup);
+        return "redirect:/adminGroup";
     }
 
     @RequestMapping("/adminRule")
     public ModelAndView adminRule() {
         ModelAndView ret = new ModelAndView();
-
+        List<Configurable> rules = (List<Configurable>) RulesDAO.getInstance().readAll(Rules.class);
+        Rules newRule = new Rules();
+        List<Configurable> options = (List<Configurable>) OptionsDAO.getInstance().readAll(Options.class);
+        ret.addObject("options", options);
+        List<Configurable> products = (List<Configurable>) ProductsDAO.getInstance().readAll(Products.class);
+        ret.addObject("products", products);        
+        ret.addObject("rules", rules);
+        ret.addObject("newRule", newRule);
         return ret;
+    }
+
+    @RequestMapping(value = "adminRule/remove", method = RequestMethod.POST)
+    public String deleteRule(Rules delRule) {
+        System.out.println(delRule.toString());
+        RulesDAO.getInstance().remove(Rules.class, delRule.getId());
+        return "redirect:/adminRule";
+    }
+
+    @RequestMapping(value = "adminRule/create", method = RequestMethod.POST)
+    public String addGroup(Rules newRule) {
+        RulesDAO.getInstance().create(Rules.class, newRule);
+        return "redirect:/adminRule";
     }
 }

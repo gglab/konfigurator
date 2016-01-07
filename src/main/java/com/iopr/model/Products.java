@@ -39,7 +39,7 @@ public class Products implements Configurable{
     private float standardPrice;
 
     public Products() {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
     
     public float getStandardPrice() {

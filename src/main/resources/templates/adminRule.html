@@ -1,4 +1,5 @@
 <!DOCTYPE HTML>
+
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Zarządzanie Regułami</title>
@@ -9,6 +10,75 @@
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     </head>
     <body>
+        <div class="container">
+            <h2>Lista reguł</h2>
+        </div>
+        <div class="container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>id reguły</th>
+                        <th>id produku</th>
+                        <th>id opcji 1</th>
+                        <th>id opcji 2</th>
+                        <th>usuń</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="rule : ${rules}">
+                        <td th:text="${rule.id}"></td>
+                        <td><input type="number" th:value="${rule.productID}" readonly="true"/></td>
+                        <td><input type="number" th:value="${rule.option1ID}" readonly="true"/></td>
+                        <td><input type="number" th:value="${rule.option2ID}" readonly="true"/></td>
+                        <td><form action="#" th:action="@{/adminRule/remove}" th:object="${newRule}" method="post">
+                                <input type="hidden" th:value="${rule.id}" id="id" name="id"/>
+                                <button type="submit" name="deleteRule/">Delete</button>
+                            </form></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="container">
+            <h2>Dodaj regułę</h2>
+            <div class="container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>nazwa produktu</th>
+                            <th>nazwa opcji 1</th>
+                            <th>nazwa opcji 2</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                    <form action="#" th:action="@{/adminRule/create}" th:object="${newRule}" method="post">
+                        <td><select class="form-control" id="productID" name="productID">
+                                <option th:each="product : ${products}"
+                                        th:value="${product.id}"
+                                        th:text="${product.name}"
+                                        />
+
+                            </select></td>
+                        <td><select class="form-control" id="option1ID" name="option1ID">
+                                <option th:each="option : ${options}"
+                                        th:value="${option.id}"
+                                        th:text="${option.name}"
+                                        />
+                            </select></td>
+                        <td><select class="form-control" id="option2ID" name="option2ID">
+                                <option th:each="option : ${options}"
+                                        th:value="${option.id}"
+                                        th:text="${option.name}"
+                                        />
+                            </select></td>  
+                        <!--td><input type="checkbox" th:field="${newOption.isDefault}"/></td-->
+                        <td><button type="submit" name="addProduct/" >Create</button></td>
+                    </form>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
         <div>
             <a href="admin">Powrót</a>
         </div>
