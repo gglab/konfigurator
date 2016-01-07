@@ -237,37 +237,25 @@ GO
 IF (OBJECT_ID('Remove_Options') IS NOT NULL)
   DROP PROCEDURE Remove_Options
 GO
-CREATE PROCEDURE Remove_Options @optionID INT, @newDefaultOption INT = NULL
+CREATE PROCEDURE Remove_Options @optionID INT
 AS
 BEGIN
-	DECLARE  @default BIT
-	SELECT @default = isDefault FROM options where id= @optionID
-	
-	IF (@default = 1 AND @newDefaultOption IS NULL) 
-	BEGIN
-		RETURN
-	END
-
-	IF (@optionID = @newDefaultOption) 
-	BEGIN
-		RETURN
-	END
-	
-	
-	IF (@default = 1)
-	BEGIN
-		UPDATE options SET isDefault = 1
-		WHERE id = @newDefaultOption
- 	END
- 	BEGIN
- 		DELETE FROM options 
- 		WHERE id = @optionID
- 	END
- 	IF (@default = 0)
- 	BEGIN
  		DELETE FROM options
  		WHERE id = @optionID
- 	END
+
+END
+GO
+
+
+IF (OBJECT_ID('Remove_Rules') IS NOT NULL)
+  DROP PROCEDURE Remove_Rules
+GO
+CREATE PROCEDURE Remove_Rules @ruleID INT
+AS
+BEGIN
+ 		DELETE FROM rules
+ 		WHERE id = @ruleID
+
 END
 GO
 
@@ -488,13 +476,6 @@ GO
 IF (OBJECT_ID('Update_Rules') IS NOT NULL)
   DROP PROCEDURE Update_Rules
 GO
-CREATE PROCEDURE Update_Rules @ruleID INT, @name VARCHAR(30)
-AS
-BEGIN
-	UPDATE products SET name = @name
-	WHERE id = @ruleID
-END
-GO
 
 
 IF (OBJECT_ID('Update_Groups') IS NOT NULL)
@@ -503,7 +484,7 @@ GO
 CREATE PROCEDURE Update_Groups @groupID INT, @name VARCHAR(30)
 AS
 BEGIN
-	UPDATE products SET name = @name
+	UPDATE groups SET groupName = @name
 	WHERE id = @groupID
 END
 GO
