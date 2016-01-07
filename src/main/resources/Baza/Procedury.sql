@@ -507,3 +507,44 @@ BEGIN
 	WHERE id = @groupID
 END
 GO
+
+
+IF (OBJECT_ID('Get_NotAllowedOptions') IS NOT NULL)
+  DROP FUNCTION Get_NotAllowedOptions
+GO
+CREATE FUNCTION Get_NotAllowedOptions (@productID INT, @optionID INT)
+RETURNS @tab TABLE (id INT,
+	name VARCHAR(30),
+	isDefault BIT,
+	price MONEY,
+	groups INT)
+AS
+BEGIN
+	INSERT INTO @tab
+	SELECT O1.id, O1.name, O1.isDefault, O1.price,	(SELECT id FROM
+									groups WHERE
+                        					id IN
+									(SELECT groupID FROM productToOptionLink
+									WHERE optionID = O1.id)) AS 'g'
+	FROM options O1
+	WHERE 
+	O1.id IN
+	(SELECT optionID FROM productToOptionLink P1
+	WHERE productID  = @productID)
+	AND
+	O1.id <> @optionID
+	AND 
+	O1.id IN
+		(SELECT option1ID FROM
+		rules
+		WHERE option2ID = @optionID)
+	OR
+	O1.id IN
+		(SELECT option2ID FROM
+		rules
+		WHERE option1ID = @optionID)
+	AND		
+	O1.isActive = 1	
+	RETURN	
+END
+GO
