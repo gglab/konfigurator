@@ -49,7 +49,8 @@ and open the template in the editor.
             <tr th:each="option : ${options}">
                 <td>
                     <form action="#" th:action="@{product?id=} + ${productId} + '&AMP;optionId=' + ${option.id}" method="post">
-                        <input type="submit" th:value="${option.isDefault}"/>                          
+                        <input th:if="${option.isEnabled}"      type="submit" th:value="${option.isDefault}"/>
+                        <input th:unless="${option.isEnabled}"  type="submit" th:value="${option.isDefault}" disabled="disabled" hidden="hidden"/>                  
                     </form>
                 </td>
                 <td th:text="${option.name}">name</td>

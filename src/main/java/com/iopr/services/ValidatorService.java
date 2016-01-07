@@ -31,23 +31,37 @@ public class ValidatorService {
         return instance;
     }
     public Collection<Options> validateOptions(Collection<Options> options, int productId){
+        options = setAllAllowed(options);
         Collection<Configurable> selected = getSelectedOptions(options);
+        if(selected.size()==0)
+            return options;
+        
         Collection<Configurable> notAllowed = new ArrayList<Configurable>();
         for (Iterator<Configurable> iterator = selected.iterator(); iterator.hasNext();) {
             Options selectedOption = (Options) iterator.next();
             notAllowed.addAll(OptionsDAO.getInstance().readNotAllowedOptions(productId, selectedOption.getId()));
+            //System.out.println("Not allowed options for " + selectedOption.getName() + ": " + notAllowed.size());
         }
-        System.out.println("Not allowed options: " + notAllowed.size());
+        if(notAllowed.size()==0)
+            return options;
+        
         for (Iterator<Options> iterator = options.iterator(); iterator.hasNext();) {
             Options option = iterator.next();
-            System.out.println("Validate option: " + option.getName() + " is not allowed: " + notAllowed.contains(option));
-            option.setIsEnabled(!notAllowed.contains(option));
-            //option.setIsDefault(!(selected.contains(option) && notAllowed.contains(option)));
+            boolean isNotAllowed = notAllowed.stream().anyMatch(p -> p.getId() == option.getId());
+            option.setIsEnabled(!isNotAllowed);
+            //System.out.println("Validate option: " + option.getName() + " is not allowed: " + isNotAllowed + " set it enabled: " + option.isIsEnabled());
         }
         return options;
     }
     
     private Collection<Configurable> getSelectedOptions(Collection<Options> options){        
         return options.stream().filter(p -> p.isIsDefault()).collect(Collectors.toList());
+    }
+
+    private Collection<Options> setAllAllowed(Collection<Options> options) {
+        for (Options option : options) {
+            option.setIsEnabled(true);
+        }
+        return options;
     }
 }

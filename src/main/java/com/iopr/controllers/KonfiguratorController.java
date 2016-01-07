@@ -48,7 +48,7 @@ public class KonfiguratorController {
             model.addObject("productName", product.getName());
             model.addObject("productId", product.getId());
         }
-        if(options == null||productID!=id ){
+        if(options == null||productID!=id||optionId == null){
             options = OptionsDAO.getInstance().readOptionsForProduct(product.getId());
             productID = product.getId();
         }
