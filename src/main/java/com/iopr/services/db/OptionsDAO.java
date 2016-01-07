@@ -26,6 +26,8 @@ import javax.persistence.Entity;
 public class OptionsDAO extends SpringHibernateHSQLDAO {
 
     private static OptionsDAO dao = null;
+    private static final String GET_ALLOWED_OPTIONS_STATEMENT = "SELECT * FROM Get_AllowedOptions(?, ?)";
+    private static final String GET_NOT_ALLOWED_OPTIONS_STATEMENT = "SELECT * FROM Get_NotAllowedOptions(?, ?)";
 
     private OptionsDAO() {
     }
@@ -102,5 +104,64 @@ public class OptionsDAO extends SpringHibernateHSQLDAO {
         }
         return true;
     }
+    
+    
+    public Collection<Options> readOptionsForProduct(long productID) {
+        Collection<Options> resultList = new ArrayList<Options>();
+        final String getAllStatement = FUNCTION_GET_ALL_PREFIX + Options.class.getSimpleName() + FUNCTION_GET_ALL_SUFFIX;
+        try {
+            CallableStatement statement = connection.prepareCall(getAllStatement);
+            ResultSet executeQuery = statement.executeQuery();
+            while (executeQuery.next()) {
+                if(executeQuery.getLong(5) == productID)
+                resultList.add(new Options(executeQuery.getLong(1), executeQuery.getString(2), executeQuery.getBoolean(3), executeQuery.getFloat(4), executeQuery.getLong(5),
+                        executeQuery.getLong(6)));
+            }
+            statement.close();
+            executeQuery.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(OptionsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return resultList;
+    }
+    
+    public Collection<Configurable> readAllowedOptions(long productId, long optionId){
+        Collection<Configurable> resultList = new ArrayList<Configurable>();
+        try {
+            CallableStatement statement = connection.prepareCall(GET_ALLOWED_OPTIONS_STATEMENT);
+            statement.setInt(1, (int) productId);
+            statement.setInt(2, (int) optionId);
+            ResultSet executeQuery = statement.executeQuery();
+            while (executeQuery.next()) {
+                resultList.add(new Options(executeQuery.getLong(1), executeQuery.getString(2), executeQuery.getBoolean(3), executeQuery.getFloat(4), executeQuery.getLong(5),
+                        productId));
+            }
+            statement.close();
+            executeQuery.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(OptionsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return resultList;
+    }
+
+    public Collection<Configurable> readNotAllowedOptions(int productId, long optionId) {
+        Collection<Configurable> resultList = new ArrayList<Configurable>();
+        try {
+            CallableStatement statement = connection.prepareCall(GET_NOT_ALLOWED_OPTIONS_STATEMENT);
+            statement.setInt(1, (int) productId);
+            statement.setInt(2, (int) optionId);
+            ResultSet executeQuery = statement.executeQuery();
+            while (executeQuery.next()) {
+                resultList.add(new Options(executeQuery.getLong(1), executeQuery.getString(2), executeQuery.getBoolean(3), executeQuery.getFloat(4), executeQuery.getLong(5),
+                        productId));
+            }
+            statement.close();
+            executeQuery.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(OptionsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return resultList;
+    }
+      
 
 }

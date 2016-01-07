@@ -36,13 +36,24 @@ public class Options implements Configurable {
 
     private long productID;
 
-    private long groupID;
+    private long groupID; 
+    
+    private boolean isEnabled;
+
+    public boolean isIsEnabled() {
+        return isEnabled;
+    }
+
+    public void setIsEnabled(boolean isEnabled) {
+        this.isEnabled = isEnabled;
+    }
 
     public Options(long id, String name, boolean isDefault, float price) {
         this.id = id;
         this.name = name;
         this.isDefault = isDefault;
         this.price = price;
+        this.isEnabled = true;
     }
 
     public Options(long id, String name, boolean isDefault, float price, long productID, long groupID) {
@@ -52,6 +63,7 @@ public class Options implements Configurable {
         this.price = price;
         this.productID = productID;
         this.groupID = groupID;
+        this.isEnabled = true;
     }
 
     public Options() {

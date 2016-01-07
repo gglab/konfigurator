@@ -11,4 +11,6 @@ package com.iopr.model;
  */
 public interface Configurable {
     
+    public long getId();
+    
 }

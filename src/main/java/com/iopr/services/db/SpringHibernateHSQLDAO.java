@@ -5,26 +5,6 @@
  */
 package com.iopr.services.db;
 
-import com.iopr.model.Configurable;
-import com.iopr.model.Products;
-import java.sql.CallableStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
-import javax.persistence.Query;
-import org.hibernate.jpa.internal.EntityManagerFactoryImpl;
-
 /**
  *
  * @author glabg

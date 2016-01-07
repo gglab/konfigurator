@@ -13,15 +13,18 @@ and open the template in the editor.
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script type="text/javascript">
-        function calcPrice(id) {
+        function calcPrice(optionId, productId) {   
+            var oId = optionId;
+            var pId = productId;
+            var contents = [pId, oId];
             
-            var jsonfile = {json: JSON.stringify(id)};
-            $.ajax({
-                type: 'POST',
-                url: "/product",
+            var jsonfile= {json:JSON.stringify(contents)};
+                $.ajax({
+                type:'POST',
+                url: "/product/modify",
                 data: jsonfile,
                 dataType: "json"
-            });
+                });
         }
 
     </script>
@@ -45,7 +48,9 @@ and open the template in the editor.
         <tbody>
             <tr th:each="option : ${options}">
                 <td>
-                    <input type="checkbox" th:checked="${option.isDefault} == true" name="${option.name}" th:onclick="'javascript:calcPrice(' + ${option.id} + ');'"></input>
+                    <form action="#" th:action="@{product?id=} + ${productId} + '&AMP;optionId=' + ${option.id}" method="post">
+                        <input type="submit" th:value="${option.isDefault}"/>                          
+                    </form>
                 </td>
                 <td th:text="${option.name}">name</td>
                 <td th:text="${option.price}">price</td>
@@ -53,8 +58,5 @@ and open the template in the editor.
         </tbody>
     </table>
 </div>
-<form action="#" th:action="@{/product}" method="post">
-    <input type="submit" />
-</form>
 </tbody>
 </html>
