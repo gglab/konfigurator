@@ -47,11 +47,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-	 <dependency>
-	  <groupId>jdbc</groupId>
-	  <artifactId>migrosoft</artifactId>
-	  <version>42</version>
-	 </dependency>
 	</dependencies>
 	
 	<build>

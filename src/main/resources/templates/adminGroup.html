@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Zarządzanie Grupami</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <form action="#" th:action="@{/adminGroup}" method="post">
+            <input type="submit" />
+        </form>
+        <div class="container">
+            <h2>Lista produktów</h2>
+        </div>
+        <div class="container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>id produktu</th>
+                        <th>nazwa</th>
+                        <th>cena podstawowa</th>
+                        <th>uaktualnij</th>
+                        <th>usuń</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="group : ${groups}">
+                        <td th:text="${group.id}"></td>
+                        <td><input type="text" th:value="${group.name}" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <a href="admin">Powrót</a>
+        </div>
+    </body>
+</html>

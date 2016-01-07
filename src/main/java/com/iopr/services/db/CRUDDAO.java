@@ -17,8 +17,9 @@ public interface CRUDDAO {
     
     public Connection connection = new DBConnection().getConnection();
     
-    public boolean create(Class type, Entity object);
-    public boolean update(Class type, Entity object);
+//    public boolean create(Class type);
+//    public boolean update(Class type, Object object);
     public Object read(Class type, int id);
     public <Entity>Collection readAll(Class type);
+    public boolean remove(Class type, long id);
 }

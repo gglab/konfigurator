@@ -1,0 +1,95 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Zarządzanie Opcjami</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <h2>Lista opcji</h2>
+        </div>
+        <div class="container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>id opcji</th>
+                        <th>nazwa</th>
+                        <th>id produktu</th>
+                        <th>id grupy</th>
+                        <th>domyślna</th>
+                        <th>cena </th>
+                        <th>uaktualnij</th>
+                        <th>usuń</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="option : ${options}">
+                <form action="#" th:action="@{/adminOption/update}" th:object="${newOption}" method="post">
+                    <td th:text="${option.id}"></td>
+                    <input type="hidden" th:value="${option.id}" id="id" name="id"/>
+                    <td><input type="text" th:value="${option.name}" id="name" name="name"/></td>
+                    <td><input type="text" th:value="${option.productID}" readonly="true"/></td>
+                    <td><input type="text" th:value="${option.groupID}" readonly="true"/></td>
+                    <td><input type="checkbox" th:checked="${option.isDefault} == true" /></td>
+                    <td><input type="number"  min="0" th:value="${option.price}" id="price" name="price"/></td>
+                    <td><button type="submit" name="updateOption/">Update</button></td>
+                </form>
+                <td><form action="#" th:action="@{/adminOption/remove}" th:object="${option}" method="post">
+                        <input type="hidden" th:value="${option.id}" id="id" name="id"/>
+                        <button type="submit" name="deleteOption/">Delete</button>
+                    </form></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="container">
+            <h2>Dodaj opcję</h2>
+            <div class="container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>nazwa</th>
+                            <th>cena</th>
+                            <th>domyślny</th>
+                            <th>produkt</th>
+                            <th>grupa</th>
+                            <th>dodaj</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                    <form action="#" th:action="@{/adminOption/create}" th:object="${newOption}" method="post">
+                        <td><input type="text" th:field="${newOption.name}"/></td>
+                        <td><input type="number" min="0" th:field="${newOption.price}"/></td>
+                        <td><input type="checkbox" th:field="${newOption.isDefault}"/></td>
+                        <td><select class="form-control" id="productID" name="productID">
+                                <option th:each="product : ${products}"
+                                        th:value="${product.id}"
+                                        th:text="${product.name}"
+                                        />
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-control" id="groupID" name="groupID">
+                                <option th:each="group : ${groups}"
+                                        th:value="${group.id}"
+                                        th:text="${group.name}"
+                                        />
+                            </select>
+                        </td>
+                        <td><button type="submit" name="addProduct/" >Create</button></td>
+                    </form>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div>
+            <a href="admin">Powrót</a>
+        </div>
+    </body>
+</html>

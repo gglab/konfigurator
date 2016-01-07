@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Zarządzanie Produktami</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <h2>Lista produktów</h2>
+        </div>
+        <div class="container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>id produktu</th>
+                        <th>nazwa</th>
+                        <th>cena podstawowa</th>
+                        <th>uaktualnij</th>
+                        <th>usuń</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="product : ${products}">
+                <form action="#" th:action="@{/adminProduct/update}" th:object="${newProduct}" method="post">
+                    <td th:text="${product.id}"></td>
+                    <input type="hidden" th:value="${product.id}" id="id" name="id"/>
+                    <td><input type="text" th:value="${product.name}" id="name" name="name"/></td>
+                    <td><input type="number" min="0" th:value="${product.standardPrice}" id="standardPrice" name="standardPrice"/></td>
+                    <td><button type="submit" name="updateProduct/">Update</button></td>
+                </form>
+                <td><form action="#" th:action="@{/adminProduct/remove}" th:object="${product}" method="post">
+                        <input type="hidden" th:value="${product.id}" id="id" name="id"/>
+                        <button type="submit" name="deleteProduct/">Delete</button>
+                    </form></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="container">
+            <h2>Dodaj produkt</h2>
+            <div class="container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>nazwa</th>
+                            <th>cena podstawowa</th>
+                            <th>dodaj</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                    <form action="#" th:action="@{/adminProduct/create}" th:object="${newProduct}" method="post">
+                        <td><input type="text" th:field="${newProduct.name}"/></td>
+                        <td><input type="number" min="0" th:field="${newProduct.standardPrice}"/></td>
+                        <td>
+                            <button type="submit" name="addProduct/" >Create</button>
+                        </td>
+                    </form>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div>
+            <a href="admin">Powrót</a>
+        </div>
+    </body>
+</html>
