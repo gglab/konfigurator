@@ -47,7 +47,7 @@ public class ProductsDAO extends SpringHibernateHSQLDAO {
             statement.close();
             executeQuery.close();
         } catch (SQLException ex) {
-            Logger.getLogger(ProductsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductsDAO.class.getName()).log(Level.SEVERE, ex.getMessage());
         }
         return resultList;
     }
@@ -59,7 +59,7 @@ public class ProductsDAO extends SpringHibernateHSQLDAO {
             CallableStatement statement = connection.prepareCall(createProductStatement);
             statement.executeQuery();
         } catch (SQLException ex) {
-            Logger.getLogger(ProductsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductsDAO.class.getName()).log(Level.SEVERE, ex.getMessage());
         }
         return true;
     }
@@ -72,7 +72,7 @@ public class ProductsDAO extends SpringHibernateHSQLDAO {
             CallableStatement statement = connection.prepareCall(updateProductStatemnet);
             statement.executeQuery();
         } catch (SQLException ex) {
-            Logger.getLogger(ProductsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductsDAO.class.getName()).log(Level.SEVERE, ex.getMessage());
         }
         return true;
     }
@@ -99,7 +99,7 @@ public class ProductsDAO extends SpringHibernateHSQLDAO {
             statement.close();
             executeQuery.close();
         } catch (SQLException ex) {
-            Logger.getLogger(ProductsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductsDAO.class.getName()).log(Level.SEVERE, ex.getMessage());
         }
         return result;
     }
@@ -112,7 +112,7 @@ public class ProductsDAO extends SpringHibernateHSQLDAO {
             statement = connection.prepareCall(deleteProductStatement);
             statement.executeQuery();
         } catch (SQLException ex) {
-            Logger.getLogger(ProductsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductsDAO.class.getName()).log(Level.SEVERE, ex.getMessage());
         }
         return true;
     }

@@ -46,7 +46,7 @@ public class GroupsDAO extends SpringHibernateHSQLDAO {
             CallableStatement statement = connection.prepareCall(createGroupStatement);
             statement.executeQuery();
         } catch (SQLException ex) {
-            Logger.getLogger(GroupsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GroupsDAO.class.getName()).log(Level.SEVERE, ex.getMessage());
         }
         return true;
     }
@@ -58,7 +58,7 @@ public class GroupsDAO extends SpringHibernateHSQLDAO {
             CallableStatement statement = connection.prepareCall(updateGroupStatement);
             statement.executeQuery();
         } catch (SQLException ex) {
-            Logger.getLogger(GroupsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GroupsDAO.class.getName()).log(Level.SEVERE, ex.getMessage());
         }
         return true;
     }
@@ -81,7 +81,7 @@ public class GroupsDAO extends SpringHibernateHSQLDAO {
             statement.close();
             executeQuery.close();
         } catch (SQLException ex) {
-            Logger.getLogger(GroupsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GroupsDAO.class.getName()).log(Level.SEVERE, ex.getMessage());
         }
         return resultList;
     }

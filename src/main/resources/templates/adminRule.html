@@ -51,14 +51,17 @@
                     </thead>
                     <tbody>
                         <tr>
-                    <form action="#" th:action="@{/adminRule/create}" th:object="${newRule}" method="post">
-                        <td><select class="form-control" id="productID" name="productID">
+                    <form action="#" th:action="@{adminRule/selectProductForRule}" th:object="${productForRule}" method="post">
+                        <td><select class="form-control" id="id" name="id">
                                 <option th:each="product : ${products}"
                                         th:value="${product.id}"
                                         th:text="${product.name}"
                                         />
-
                             </select></td>
+                            <td><button type="submit" name="selectProductForRule/" >Wybierz produkt</button></td>
+                    </form>
+                    <form action="#" th:action="@{/adminRule/create}" th:object="${newRule}" method="post">
+                        <input type="hidden" th:value="${productForRule.id}" id="productID" name="productID" />
                         <td><select class="form-control" id="option1ID" name="option1ID">
                                 <option th:each="option : ${options}"
                                         th:value="${option.id}"
@@ -80,7 +83,7 @@
             </div>
         </div>
         <div>
-            <a href="admin">Powrót</a>
+            <center><a href="admin">Powrót do panelu głównego</a></center>
         </div>
     </body>
 </html>

@@ -48,7 +48,7 @@ public class OptionsDAO extends SpringHibernateHSQLDAO {
             statement.executeQuery();
             return true;
         } catch (SQLException ex) {
-            Logger.getLogger(OptionsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OptionsDAO.class.getName()).log(Level.SEVERE, ex.getMessage());
         }
         return false;
     }
@@ -61,7 +61,7 @@ public class OptionsDAO extends SpringHibernateHSQLDAO {
             CallableStatement statement = connection.prepareCall(updateOptionStatement);
             statement.executeQuery();
         } catch (SQLException ex) {
-            Logger.getLogger(OptionsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OptionsDAO.class.getName()).log(Level.SEVERE, ex.getMessage());
         }
 
         return true;
@@ -86,7 +86,7 @@ public class OptionsDAO extends SpringHibernateHSQLDAO {
             statement.close();
             executeQuery.close();
         } catch (SQLException ex) {
-            Logger.getLogger(OptionsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OptionsDAO.class.getName()).log(Level.SEVERE, ex.getMessage());
         }
         return resultList;
     }
@@ -100,7 +100,7 @@ public class OptionsDAO extends SpringHibernateHSQLDAO {
             statement = connection.prepareCall(deleteOptionStatement);
             statement.executeQuery();
         } catch (SQLException ex) {
-            Logger.getLogger(OptionsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OptionsDAO.class.getName()).log(Level.SEVERE, ex.getMessage());
         }
         return true;
     }
@@ -120,7 +120,7 @@ public class OptionsDAO extends SpringHibernateHSQLDAO {
             statement.close();
             executeQuery.close();
         } catch (SQLException ex) {
-            Logger.getLogger(OptionsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OptionsDAO.class.getName()).log(Level.SEVERE, ex.getMessage());
         }
         return resultList;
     }
@@ -139,7 +139,7 @@ public class OptionsDAO extends SpringHibernateHSQLDAO {
             statement.close();
             executeQuery.close();
         } catch (SQLException ex) {
-            Logger.getLogger(OptionsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OptionsDAO.class.getName()).log(Level.SEVERE, ex.getMessage());
         }
         return resultList;
     }
@@ -158,7 +158,7 @@ public class OptionsDAO extends SpringHibernateHSQLDAO {
             statement.close();
             executeQuery.close();
         } catch (SQLException ex) {
-            Logger.getLogger(OptionsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OptionsDAO.class.getName()).log(Level.SEVERE, ex.getMessage());
         }
         return resultList;
     }

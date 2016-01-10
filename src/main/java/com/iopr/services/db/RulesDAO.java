@@ -46,7 +46,7 @@ public class RulesDAO extends SpringHibernateHSQLDAO {
             CallableStatement statement = connection.prepareCall(createRuleStatement);
             statement.executeQuery();
         } catch (SQLException ex) {
-            Logger.getLogger(RulesDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RulesDAO.class.getName()).log(Level.SEVERE, ex.getMessage());
         }
         return true;
     }
@@ -73,7 +73,7 @@ public class RulesDAO extends SpringHibernateHSQLDAO {
             statement.close();
             executeQuery.close();
         } catch (SQLException ex) {
-            Logger.getLogger(RulesDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RulesDAO.class.getName()).log(Level.SEVERE, ex.getMessage());
         }
         return resultList;
     }
@@ -87,7 +87,7 @@ public class RulesDAO extends SpringHibernateHSQLDAO {
             statement = connection.prepareCall(deleteRuleStatement);
             statement.executeQuery();
         } catch (SQLException ex) {
-            Logger.getLogger(RulesDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RulesDAO.class.getName()).log(Level.SEVERE, ex.getMessage());
         }
         return true;
     }

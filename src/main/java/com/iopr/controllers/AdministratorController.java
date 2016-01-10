@@ -14,6 +14,7 @@ import com.iopr.services.db.GroupsDAO;
 import com.iopr.services.db.OptionsDAO;
 import com.iopr.services.db.ProductsDAO;
 import com.iopr.services.db.RulesDAO;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -121,16 +122,24 @@ public class AdministratorController {
     }
 
     @RequestMapping("/adminRule")
-    public ModelAndView adminRule() {
+    public ModelAndView adminRule(@RequestParam(value = "productID", required = false) Long productID) {
         ModelAndView ret = new ModelAndView();
         List<Configurable> rules = (List<Configurable>) RulesDAO.getInstance().readAll(Rules.class);
         Rules newRule = new Rules();
-        List<Configurable> options = (List<Configurable>) OptionsDAO.getInstance().readAll(Options.class);
-        ret.addObject("options", options);
+        List<Options> options = new ArrayList<>();
         List<Configurable> products = (List<Configurable>) ProductsDAO.getInstance().readAll(Products.class);
-        ret.addObject("products", products);        
+        Products productForRule = new Products();
+
+        if (productID != null) {
+            options = (List<Options>) OptionsDAO.getInstance().readOptionsForProduct(productID);
+            productForRule.setId(productID);
+            
+        }
+        ret.addObject("options", options);
+        ret.addObject("products", products);
         ret.addObject("rules", rules);
         ret.addObject("newRule", newRule);
+        ret.addObject("productForRule", productForRule);
         return ret;
     }
 
@@ -141,8 +150,14 @@ public class AdministratorController {
         return "redirect:/adminRule";
     }
 
+    @RequestMapping(value = "adminRule/selectProductForRule", method = RequestMethod.POST)
+    public String selectProductForRule(Products productForRule) {
+//        OptionsDAO.getInstance().readOptionsForProduct(productForRule.getId());
+        return "redirect:/adminRule?productID="+Long.toString(productForRule.getId());
+    }
+
     @RequestMapping(value = "adminRule/create", method = RequestMethod.POST)
-    public String addGroup(Rules newRule) {
+    public String addRule(Rules newRule) {
         RulesDAO.getInstance().create(Rules.class, newRule);
         return "redirect:/adminRule";
     }
